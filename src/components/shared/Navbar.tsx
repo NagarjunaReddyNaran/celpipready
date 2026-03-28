@@ -22,6 +22,7 @@ export function Navbar({ user }: { user: User }) {
               <Link href="/dashboard" className="text-sm text-slate-600 hover:text-slate-900">Dashboard</Link>
               <Link href="/tests" className="text-sm text-slate-600 hover:text-slate-900">Practice</Link>
               <Link href="/settings" className="text-sm text-slate-600 hover:text-slate-900">Settings</Link>
+              <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900">Contact</Link>
               <span className={`px-2 py-0.5 rounded-md text-xs font-semibold ${planStyles[plan] ?? planStyles.free}`}>
                 {plan.charAt(0).toUpperCase() + plan.slice(1)}
               </span>
