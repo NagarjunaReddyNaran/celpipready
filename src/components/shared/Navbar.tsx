@@ -31,6 +31,7 @@ export function Navbar({ user }: { user: User }) {
             <>
               <Link href="/pricing" className="text-sm text-slate-600 hover:text-slate-900">Pricing</Link>
               <Link href="/blog" className="text-sm text-slate-600 hover:text-slate-900">Blog</Link>
+              <Link href="/contact" className="text-sm text-slate-600 hover:text-slate-900">Contact</Link>
               <Link href="/login" className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 font-medium">Get Started Free</Link>
             </>
           )}
