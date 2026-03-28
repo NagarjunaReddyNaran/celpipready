@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -29,6 +29,13 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { data: session, update } = useSession();
   const [step, setStep] = useState(1);
+
+  // If already onboarded, skip straight to dashboard
+  useEffect(() => {
+    if ((session?.user as { onboarded?: boolean })?.onboarded === true) {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 

@@ -38,6 +38,10 @@ export default async function DashboardPage() {
   if (!session?.user?.id) redirect("/login");
 
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+
+  // Redirect new users through onboarding before reaching the dashboard
+  if (!user?.onboarded) redirect("/onboarding");
+
   const isFree = user?.plan === "free";
 
   // Free users: cap at 3 sessions; paid users: fetch 20 for chart
