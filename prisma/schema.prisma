@@ -18,6 +18,8 @@ model User {
   stripeCustomerId String?       @unique
   targetTestDate   DateTime?
   reminderEnabled  Boolean       @default(false)
+  onboarded        Boolean       @default(false)
+  goalType         String?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   testSessions     TestSession[]
