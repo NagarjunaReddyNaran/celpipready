@@ -10,7 +10,7 @@ export default async function TestsPage() {
     { section: "reading",   label: "Reading Practice",    icon: "📖", parts: "38 questions", time: "~55 min", difficulty: "Intermediate", href: "/tests/reading/new",    ai: false, premium: false },
     { section: "writing",   label: "Writing Practice",    icon: "✍️", parts: "2 tasks",      time: "~53 min", difficulty: "Intermediate", href: "/tests/writing/new",    ai: true,  premium: false },
     { section: "speaking",  label: "Speaking Practice",   icon: "🎙️", parts: "8 tasks",      time: "~20 min", difficulty: "Intermediate", href: "/tests/speaking/new",   ai: true,  premium: true  },
-    { section: "full",      label: "Full Mock Test",      icon: "🏆", parts: "All sections", time: "~3 hours",difficulty: "Advanced",     href: "/tests/full/new",       ai: true,  premium: true  }
+    { section: "full",      label: "Full Mock Test",      icon: "🏆", parts: "All sections", time: "~3 hours",difficulty: "Advanced",     href: "/tests/full/start",     ai: true,  premium: false }
   ];
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
