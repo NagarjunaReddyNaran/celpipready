@@ -1,10 +1,16 @@
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import type { Metadata } from "next";
 export const metadata: Metadata = { title: "Practice Tests" };
 
 export default async function TestsPage() {
   const session = await auth();
+  const userId = session?.user?.id;
+  const user = userId
+    ? await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } })
+    : null;
+  const isPremium = user?.plan === "premium";
   const tests = [
     { section: "listening", label: "Listening Practice",  icon: "🎧", parts: "8 parts",      time: "~47 min", difficulty: "Intermediate", href: "/tests/listening/new",  ai: false, premium: false },
     { section: "reading",   label: "Reading Practice",    icon: "📖", parts: "38 questions", time: "~55 min", difficulty: "Intermediate", href: "/tests/reading/new",    ai: false, premium: false },
@@ -33,13 +39,17 @@ export default async function TestsPage() {
               {t.premium && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">Premium</span>}
             </div>
             <div className="mt-auto">
-              {session ? (
-                <Link href={t.href} className={`block text-center py-2.5 rounded-xl text-sm font-semibold transition ${t.premium ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-blue-600 text-white hover:bg-blue-700"}`}>
-                  {t.premium ? "🔒 Upgrade to Start" : "Start Test"}
-                </Link>
-              ) : (
+              {!session ? (
                 <Link href="/login" className="block text-center py-2.5 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700">
                   Sign in to Start
+                </Link>
+              ) : t.premium && !isPremium ? (
+                <Link href="/pricing" className="block text-center py-2.5 rounded-xl text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800">
+                  🔒 Upgrade to Start
+                </Link>
+              ) : (
+                <Link href={t.href} className="block text-center py-2.5 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700">
+                  Start Test
                 </Link>
               )}
             </div>
