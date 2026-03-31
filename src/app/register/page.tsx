@@ -142,7 +142,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPw(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs px-2 py-2"
                 >
                   {showPw ? "Hide" : "Show"}
                 </button>

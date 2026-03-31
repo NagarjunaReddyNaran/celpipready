@@ -85,17 +85,17 @@ export default async function DashboardPage() {
     <div className="max-w-5xl mx-auto px-4 py-8">
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back, {user?.name?.split(" ")[0] ?? "there"} 👋</h1>
-          <p className="text-slate-500 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Welcome back, {user?.name?.split(" ")[0] ?? "there"} 👋</h1>
+          <p className="text-slate-500 mt-1 text-sm">
             {daysUntil != null
               ? `${daysUntil} days until your exam.`
               : "Set your test date in Settings to see your countdown."}
           </p>
         </div>
         {isFree && (
-          <div className="text-sm text-slate-500 bg-white border border-slate-200 rounded-lg px-4 py-2">
+          <div className="text-sm text-slate-500 bg-white border border-slate-200 rounded-lg px-4 py-2 self-start">
             <span className="font-semibold text-slate-700">{totalSessions}</span> of 5 free tests used
           </div>
         )}
@@ -103,12 +103,12 @@ export default async function DashboardPage() {
 
       {/* Resume in-progress test */}
       {inProgress && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center justify-between">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="font-semibold text-amber-800">You have an unfinished {inProgress.type} test</p>
             <p className="text-sm text-amber-700">Started {new Date(inProgress.createdAt).toLocaleDateString()}</p>
           </div>
-          <Link href={`/tests/${inProgress.type}/new`} className="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700">
+          <Link href={`/tests/${inProgress.type}/new`} className="bg-amber-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-amber-700 text-center">
             Continue
           </Link>
         </div>
@@ -119,8 +119,8 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         {quickStart.map(q => (
           <Link key={q.label} href={q.href} className={`rounded-xl border p-4 hover:shadow-sm transition block ${q.color}`}>
-            <div className="text-2xl mb-2">{q.icon}</div>
-            <div className="flex items-center gap-1.5 mb-1">
+            <div className="text-xl sm:text-2xl mb-2">{q.icon}</div>
+            <div className="flex items-center flex-wrap gap-1.5">
               <span className="font-semibold text-sm text-slate-800">{q.label}</span>
               {q.ai && <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-medium">AI</span>}
               {q.premium && <span className="text-xs bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-medium">Premium</span>}
@@ -191,15 +191,15 @@ export default async function DashboardPage() {
                 <Link
                   key={s.id}
                   href={`/tests/${s.id}/results`}
-                  className="flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-lg transition"
+                  className="flex items-center justify-between gap-2 p-2.5 hover:bg-slate-50 rounded-lg transition"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <span className="font-medium text-sm capitalize">{s.type}</span>
-                    <span className="text-xs text-slate-400 ml-2">
+                    <span className="text-xs text-slate-400 ml-2 whitespace-nowrap">
                       {new Date(s.completedAt!).toLocaleDateString()}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     {score != null && (
                       <span className="text-xs font-mono font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
                         {score.toFixed(1)}/12
