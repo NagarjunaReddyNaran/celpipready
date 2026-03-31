@@ -13,6 +13,7 @@ model User {
   emailVerified    DateTime?
   name             String?
   image            String?
+  password         String?
   plan             String        @default("free")
   planExpiresAt    DateTime?
   stripeCustomerId String?       @unique

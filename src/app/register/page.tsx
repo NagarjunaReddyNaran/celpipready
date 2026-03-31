@@ -1,0 +1,227 @@
+"use client";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+const EMAIL_RE    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_RE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+function passwordStrength(pw: string): { label: string; color: string; width: string } {
+  if (!pw)               return { label: "",        color: "bg-slate-200", width: "0%"   };
+  if (pw.length < 6)     return { label: "Weak",    color: "bg-red-400",   width: "25%"  };
+  if (!PASSWORD_RE.test(pw)) return { label: "Fair", color: "bg-amber-400", width: "50%"  };
+  if (pw.length < 12)    return { label: "Good",    color: "bg-blue-500",  width: "75%"  };
+  return                        { label: "Strong",  color: "bg-green-500", width: "100%" };
+}
+
+export default function RegisterPage() {
+  const router = useRouter();
+
+  const [name,      setName]      = useState("");
+  const [email,     setEmail]     = useState("");
+  const [password,  setPassword]  = useState("");
+  const [confirm,   setConfirm]   = useState("");
+  const [showPw,    setShowPw]    = useState(false);
+  const [errors,    setErrors]    = useState<Record<string, string>>({});
+  const [serverErr, setServerErr] = useState("");
+  const [loading,   setLoading]   = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  const strength = passwordStrength(password);
+
+  function validate(): boolean {
+    const e: Record<string, string> = {};
+    if (!name.trim())                              e.name     = "Full name is required.";
+    if (!EMAIL_RE.test(email.trim()))              e.email    = "Enter a valid email address.";
+    if (!PASSWORD_RE.test(password))               e.password = "Min 8 chars, with uppercase, lowercase, and number.";
+    if (password !== confirm)                      e.confirm  = "Passwords do not match.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setServerErr("");
+    if (!validate()) return;
+
+    setLoading(true);
+    const res = await fetch("/api/auth/register", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ name: name.trim(), email: email.trim().toLowerCase(), password }),
+    });
+    const data = await res.json() as { error?: string };
+    setLoading(false);
+
+    if (!res.ok) {
+      setServerErr(data.error ?? "Registration failed. Please try again.");
+      return;
+    }
+
+    // Auto sign-in after successful registration
+    const result = await signIn("credentials", {
+      email:       email.trim().toLowerCase(),
+      password,
+      redirect:    false,
+      callbackUrl: "/dashboard",
+    });
+
+    if (result?.error) {
+      router.push("/login");
+    } else {
+      router.push("/dashboard");
+    }
+  }
+
+  async function handleGoogle() {
+    setGoogleLoading(true);
+    await signIn("google", { callbackUrl: "/dashboard" });
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 bg-slate-50 py-10">
+      <div className="w-full max-w-sm">
+
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link href="/" className="text-2xl font-bold text-blue-600">CelpipReady</Link>
+          <p className="text-slate-500 mt-2 text-sm">Create your free account</p>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+
+          {/* Server error */}
+          {serverErr && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+              {serverErr}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+
+            {/* Full Name */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                autoComplete="name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Jane Smith"
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.name ? "border-red-400" : "border-slate-300"}`}
+              />
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+              <input
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.email ? "border-red-400" : "border-slate-300"}`}
+              />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+              <div className="relative">
+                <input
+                  type={showPw ? "text" : "password"}
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10 ${errors.password ? "border-red-400" : "border-slate-300"}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPw(v => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                >
+                  {showPw ? "Hide" : "Show"}
+                </button>
+              </div>
+              {/* Strength bar */}
+              {password && (
+                <div className="mt-1.5 space-y-0.5">
+                  <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full transition-all duration-300 ${strength.color}`} style={{ width: strength.width }} />
+                  </div>
+                  <p className={`text-xs ${strength.color.replace("bg-", "text-")}`}>{strength.label}</p>
+                </div>
+              )}
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Confirm Password</label>
+              <input
+                type={showPw ? "text" : "password"}
+                autoComplete="new-password"
+                value={confirm}
+                onChange={e => setConfirm(e.target.value)}
+                placeholder="••••••••"
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.confirm ? "border-red-400" : "border-slate-300"}`}
+              />
+              {errors.confirm && <p className="text-red-500 text-xs mt-1">{errors.confirm}</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              {loading ? "Creating account…" : "Create Account"}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-xs text-slate-400">or</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+
+          {/* Google */}
+          <button
+            onClick={handleGoogle}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-3 border border-slate-300 py-2.5 px-4 rounded-xl font-medium hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition text-sm"
+          >
+            <svg width="18" height="18" viewBox="0 0 48 48">
+              <path fill="#4285F4" d="M47.5 24.6c0-1.6-.1-3.1-.4-4.6H24v8.7h13.1c-.6 3-2.3 5.5-4.9 7.2v6h7.9c4.6-4.3 7.4-10.6 7.4-17.3z"/>
+              <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.9-6c-2.2 1.5-5 2.3-8 2.3-6.1 0-11.3-4.1-13.2-9.7H2.7v6.2C6.7 42.6 14.8 48 24 48z"/>
+              <path fill="#FBBC04" d="M10.8 28.8c-.5-1.5-.8-3-.8-4.8s.3-3.3.8-4.8V13H2.7C1 16.3 0 20 0 24s1 7.7 2.7 11l8.1-6.2z"/>
+              <path fill="#EA4335" d="M24 9.5c3.4 0 6.5 1.2 8.9 3.5l6.6-6.6C35.9 2.4 30.4 0 24 0 14.8 0 6.7 5.4 2.7 13l8.1 6.2c1.9-5.6 7.1-9.7 13.2-9.7z"/>
+            </svg>
+            {googleLoading ? "Redirecting…" : "Continue with Google"}
+          </button>
+
+        </div>
+
+        {/* Toggle to login */}
+        <p className="text-sm text-slate-500 text-center mt-5">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-600 font-medium hover:underline">
+            Sign in
+          </Link>
+        </p>
+
+        <p className="text-xs text-slate-400 text-center mt-3">
+          By registering you agree to our{" "}
+          <Link href="/terms"   className="underline hover:text-slate-600">Terms</Link>
+          {" "}and{" "}
+          <Link href="/privacy" className="underline hover:text-slate-600">Privacy Policy</Link>
+        </p>
+
+      </div>
+    </div>
+  );
+}
