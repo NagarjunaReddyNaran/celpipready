@@ -8,7 +8,7 @@ export default function TermsPage() {
       <div className="space-y-6 text-slate-600">
         <div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">Intellectual Property</h2>
-          <p>CelpipReady creates original content inspired by the format of free official CELPIP samples. We do not reproduce proprietary content from Paragon Testing Enterprises. CELPIP® is a registered trademark of Paragon Testing Enterprises.</p>
+          <p>CelpipEdge creates original content inspired by the format of free official CELPIP samples. We do not reproduce proprietary content from Paragon Testing Enterprises. CELPIP® is a registered trademark of Paragon Testing Enterprises.</p>
         </div>
         <div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">AI Feedback Disclaimer</h2>

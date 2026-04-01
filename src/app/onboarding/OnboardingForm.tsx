@@ -87,7 +87,7 @@ export function OnboardingForm({ initialName }: { initialName: string }) {
             Step {step} of 3
           </div>
           <h1 className="text-2xl font-bold text-slate-900">
-            {step === 1 && "Welcome to CelpipReady!"}
+            {step === 1 && "Welcome to CelpipEdge!"}
             {step === 2 && "What's your CELPIP goal?"}
             {step === 3 && "Personalize your practice"}
           </h1>

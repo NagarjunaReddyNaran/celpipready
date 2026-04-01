@@ -50,7 +50,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-bold text-blue-600">CelpipReady</Link>
+          <Link href="/" className="text-2xl font-bold text-blue-600">CelpipEdge</Link>
           <p className="text-slate-500 mt-2 text-sm">Sign in to your account</p>
         </div>
 

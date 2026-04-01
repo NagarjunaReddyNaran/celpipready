@@ -132,8 +132,8 @@ export default function ContactPage() {
 
             <p className="text-xs text-slate-400 text-center">
               Or email us directly at{" "}
-              <a href="mailto:hello@celpipready.com" className="underline hover:text-slate-600">
-                hello@celpipready.com
+              <a href="mailto:hello@celpipedge.com" className="underline hover:text-slate-600">
+                hello@celpipedge.com
               </a>
             </p>
           </form>

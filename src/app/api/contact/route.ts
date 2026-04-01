@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
   }
 
   await resend.emails.send({
-    from: "CelpipReady Contact <hello@celpipready.com>",
-    to: "hello@celpipready.com",
+    from: "CelpipEdge Contact <hello@celpipedge.com>",
+    to: "hello@celpipedge.com",
     replyTo: email,
     subject: subject ? `[Contact] ${subject}` : `[Contact] Message from ${name}`,
     html: `

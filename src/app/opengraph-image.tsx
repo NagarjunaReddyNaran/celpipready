@@ -45,10 +45,10 @@ export default function OGImage() {
               color: "#1d4ed8",
             }}
           >
-            CR
+            CE
           </div>
           <span style={{ color: "white", fontSize: "22px", fontWeight: 700, letterSpacing: "-0.5px" }}>
-            CelpipReady
+            CelpipEdge
           </span>
         </div>
 

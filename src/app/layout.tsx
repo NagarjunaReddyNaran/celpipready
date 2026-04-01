@@ -8,7 +8,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: { default: "CelpipReady — AI-Powered CELPIP Test Prep", template: "%s | CelpipReady" },
+  title: { default: "CelpipEdge — AI-Powered CELPIP Test Prep", template: "%s | CelpipEdge" },
   description: "Score higher on CELPIP with AI-powered writing and speaking feedback. Free to start.",
   keywords: ["CELPIP practice test free", "CELPIP writing practice online", "CELPIP speaking practice with AI feedback"]
 };

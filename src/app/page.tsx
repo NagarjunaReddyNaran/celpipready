@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CelpipReady — Score Higher on CELPIP with AI Practice",
+  title: "CelpipEdge — Score Higher on CELPIP with AI Practice",
   description: "AI-powered CELPIP test preparation. Free to start. No credit card needed."
 };
 
@@ -99,7 +99,7 @@ export default function HomePage() {
       <section className="bg-blue-600 py-16">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-3">Ready to improve your CELPIP score?</h2>
-          <p className="text-blue-100 mb-6">Join thousands of test-takers who practice with CelpipReady.</p>
+          <p className="text-blue-100 mb-6">Join thousands of test-takers who practice with CelpipEdge.</p>
           <Link href="/login" className="inline-flex bg-white text-blue-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition">
             Start Free — No Credit Card Needed
           </Link>
@@ -110,7 +110,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "Is CelpipReady free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, 5 free practice tests with no credit card required." } },
+          { "@type": "Question", "name": "Is CelpipEdge free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, 5 free practice tests with no credit card required." } },
           { "@type": "Question", "name": "How does AI feedback work?", "acceptedAnswer": { "@type": "Answer", "text": "Google Gemini AI scores your writing and speaking across the same 4 dimensions used by real CELPIP examiners." } }
         ]
       }) }} />

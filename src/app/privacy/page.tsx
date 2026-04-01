@@ -11,7 +11,7 @@ export default function PrivacyPage() {
         <h2 className="text-xl font-bold mb-2">AI Processing</h2>
         <p className="text-slate-600 mb-4">Writing and speaking responses are processed by Google Gemini AI to generate feedback. By using these features you consent to this processing. Responses are not stored by Google beyond the API call.</p>
         <h2 className="text-xl font-bold mb-2">PIPEDA Compliance</h2>
-        <p className="text-slate-600 mb-4">We comply with Canada's PIPEDA. Contact privacy@celpipready.com with any concerns.</p>
+        <p className="text-slate-600 mb-4">We comply with Canada's PIPEDA. Contact privacy@celpipedge.com with any concerns.</p>
         <h2 className="text-xl font-bold mb-2">Data Retention</h2>
         <p className="text-slate-600">Test sessions are retained while your account is active. Delete your account anytime from Settings to permanently remove all data.</p>
       </div>

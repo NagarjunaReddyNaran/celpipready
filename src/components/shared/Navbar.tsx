@@ -21,7 +21,7 @@ export function Navbar() {
     <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="font-bold text-base sm:text-lg text-blue-600" onClick={close}>
-          CelpipReady
+          CelpipEdge
         </Link>
 
         {status === "loading" ? (
